@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
 using UserManagement.Domain.Abstractions;
 using UserManagement.Domain.Common.Model;
-using UserManagement.Domain.Common.Validation;
 using UserManagement.Domain.Common.Validation.ValidationItems;
 using UserManagement.Domain.Persistence.Users;
 
@@ -9,19 +8,17 @@ using UserManagement.Domain.Persistence.Users;
 namespace UserManagement.Domain.Entities.Users
 {
     public class User : Entity
-    {
-       
-        public string Name { get; private set; }
-        public string Username { get; private set; }
-        public string Email { get; private set; }
-        public string AddressStreet { get; private set; }
-        public string AddressCity { get; private set; }
-        public GeoLocation GeoLocation { get; private set; }
-        public string? Website { get; private set; }
-        public string Password { get; private set; }
-        public DateTime CreatedAt { get; private set; }
-        public DateTime UpdatedAt { get; private set; }
-        public bool IsActive { get; private set; } = true;
+    {        
+        public string Name { get;  set; }
+        public string Username { get;  set; }
+        public string Email { get;  set; }
+        public string AddressStreet { get;  set; }
+        public string AddressCity { get;  set; }
+        public GeoLocation GeoLocation { get;  set; }
+        public string? Website { get;  set; }
+        public string Password { get;  set; }
+        
+        public bool IsActive { get;  set; } = true;
 
         public const int NameMaxLength = 100;
         public const int AddressStreetMaxLength = 150;

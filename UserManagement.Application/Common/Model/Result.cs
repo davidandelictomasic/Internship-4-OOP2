@@ -43,8 +43,12 @@ namespace UserManagement.Application.Common.Model
         }
         public void SetDeactivatedResult()
         {
-            Value = null;
+            Value = null;            
             IsActive = false;
+        }
+        public void SetActivatedResult()
+        {
+            IsActive = true;
         }
     }
 }

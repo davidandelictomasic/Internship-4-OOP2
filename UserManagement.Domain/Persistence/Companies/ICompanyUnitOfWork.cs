@@ -1,6 +1,8 @@
-﻿namespace UserManagement.Domain.Persistence.Companies
+﻿using UserManagement.Domain.Persistence.Common;
+
+namespace UserManagement.Domain.Persistence.Companies
 {
-    public interface ICompanyUnitOfWork
+    public interface ICompanyUnitOfWork : IUnitOfWork
     {
         ICompanyRepository Repository { get; }
     }

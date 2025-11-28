@@ -1,7 +1,9 @@
 ﻿
+using UserManagement.Domain.Persistence.Common;
+
 namespace UserManagement.Domain.Persistence.Users
 {
-    public interface IUserUnitOfWork
+    public interface IUserUnitOfWork : IUnitOfWork
     {
         IUserRepository Repository { get; }
         

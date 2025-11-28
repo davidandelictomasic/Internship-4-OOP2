@@ -8,7 +8,7 @@ namespace UserManagement.Domain.Entities.Companies
     public class Company : Entity
     {
         public const int NameMaxLength = 150;
-        public string Name { get; private set; }
+        public string Name { get;  set; }
 
         public async Task<Result<bool>> Create(ICompanyRepository companyRepository)
         {
