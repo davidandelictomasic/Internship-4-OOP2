@@ -9,10 +9,17 @@ namespace UserManagement.Infrastructure.Repositories.Common
         private readonly DbContext _context;
         private readonly DbSet<TEntity> _dbSet;
 
+        public Repository(DbContext context)
+        {
+            _context = context;
+            _dbSet = _context.Set<TEntity>();
+        }
+
 
         public async Task InsertAsync(TEntity entity)
         {
             await _dbSet.AddAsync(entity);
+            await _context.SaveChangesAsync();
 
         }
 
