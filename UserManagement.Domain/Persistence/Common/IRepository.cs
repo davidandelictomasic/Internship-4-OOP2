@@ -7,7 +7,7 @@ namespace UserManagement.Domain.Persistence.Common
     {
         Task<GetAllResponse<TEntity>> Get();
         Task InsertAsync(TEntity entity);
-        void Update(TEntity entity);
+        void Update(TEntity entity);       
         Task DeleteAsync(TId id);
         void Delete(TEntity? entity);
 

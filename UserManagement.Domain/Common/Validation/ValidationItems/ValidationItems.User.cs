@@ -50,6 +50,22 @@ namespace UserManagement.Domain.Common.Validation.ValidationItems
                 Code = $"{CodePrefix}_006",
                 Message = $"Please enter a valid URL."
             };
+            public static readonly ValidationItem AlreadyActive = new ValidationItem
+            {
+                ValidationSeverity = ValidationSeverity.Error,
+                ValidationType = ValidationType.BusinessRule, 
+                Code = $"{CodePrefix}_007",
+                Message = "User is already active."
+            };
+            public static readonly ValidationItem AlreadyInactive = new ValidationItem
+            {
+                ValidationSeverity = ValidationSeverity.Error,
+                ValidationType = ValidationType.BusinessRule, 
+                Code = $"{CodePrefix}_008",
+                Message = "User is already inactive."
+            };
+
+
 
         }
     }
