@@ -18,7 +18,7 @@ namespace UserManagement.Infrastructure.Repositories.Companies
 
         public async Task<Company> GetById(int id)
         {
-            var sql = "SELECT id as ID, first_name as FirstName FROM public.Users WHERE Id = @Id";
+            var sql = "SELECT id as ID, name as Name FROM public.Users WHERE Id = @Id";
             var parameters = new { Id = id };
             return await _dapperManager.QuerySingleAsync<Company>(sql, parameters);
         }
