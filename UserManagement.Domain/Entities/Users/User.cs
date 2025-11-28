@@ -1,5 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using UserManagement.Domain.Abstractions;
+using UserManagement.Domain.Common.Model;
+using UserManagement.Domain.Common.Validation;
+using UserManagement.Domain.Common.Validation.ValidationItems;
+using UserManagement.Domain.Persistence.Users;
+
 
 namespace UserManagement.Domain.Entities.Users
 {
@@ -23,14 +28,25 @@ namespace UserManagement.Domain.Entities.Users
         public const int AddressCityMaxLength = 100;
         public const int WebsiteMaxLength = 100;
 
-        public async Task Create()
+        public async Task<Result<bool>> Create(IUserRepository userRepository)
         {
-            
+            var validationResult = await CreateOrUpdateValidation();
+            if(validationResult.HasError)
+                return new Result<bool>(false, validationResult);
+            await userRepository.InsertAsync(this);
+            return new Result<bool>(true, validationResult);
+
 
         }
-        public async Task CreateOrUpdateValidation()
+        public async Task<Common.Validation.ValidationResult> CreateOrUpdateValidation()
         {
+            var validationResult = new Common.Validation.ValidationResult();
+            if (Name?.Length > NameMaxLength)
+                validationResult.AddValidationItem(UserValidationItems.User.NameMaxLength);
+
+
             
+            return validationResult;
         }
     }
 }
