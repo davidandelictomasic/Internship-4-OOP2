@@ -7,29 +7,38 @@ namespace UserManagement.Application.Users.User
     public class DeactivateUserRequest
 
     {
-        public int UserId { get; init; }
+        
 
     }
     public class DeactivateUserRequestHandler : RequestHandler<DeactivateUserRequest, SuccessPostResponse>
     {
         private readonly IUserUnitOfWork _unitOfWork;
+        private int _userId;
+
         public DeactivateUserRequestHandler(IUserUnitOfWork userUnitOfWork)
         {
             _unitOfWork = userUnitOfWork;
         }
+        public void SetUserId(int id)
+        {
+            _userId = id;
+        }
         protected async override Task<Result<SuccessPostResponse>> HandleRequest(DeactivateUserRequest request, Result<SuccessPostResponse> result)
         {
-            var user = await _unitOfWork.Repository.GetById(request.UserId);
-            var validationResult = await user.Create(_unitOfWork.Repository);
-            if (!user.IsActive)
-            {
-
-                validationResult.ValidationResult.AddValidationItem(UserValidationItems.User.AlreadyInactive);
-                result.SetValidationResult(validationResult.ValidationResult);
-                return result;
-            }
-
+            var user = await _unitOfWork.Repository.GetById(_userId);
             user.IsActive = false;
+
+            user.Username = user.Username;
+            user.Email = "string";
+            user.AddressStreet = "string";
+            user.AddressCity = "string";
+            user.Website = "string";
+            user.Password = "string";
+            user.GeoLatitude = 0;
+            user.GeoLongitude = 0;
+            var validationResult = await user.Update(_unitOfWork.Repository);            
+
+            
             result.SetValidationResult(validationResult.ValidationResult);
 
             await _unitOfWork.SaveAsync();

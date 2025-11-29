@@ -4,32 +4,26 @@ using UserManagement.Domain.Persistence.Users;
 
 namespace UserManagement.Application.Users.User
 {
-    public class ActivateUserRequest
-
-    {
-        public int UserId { get; init; }
-
-    }
+    public class ActivateUserRequest {   }
     public class ActivateUserRequestHandler : RequestHandler<ActivateUserRequest, SuccessPostResponse>
     {
         private readonly IUserUnitOfWork _unitOfWork;
+        private int _userId;
         public ActivateUserRequestHandler(IUserUnitOfWork userUnitOfWork)
         {
             _unitOfWork = userUnitOfWork;
         }
+        public void SetUserId(int id)
+        {
+            _userId = id;
+        }
         protected async override Task<Result<SuccessPostResponse>> HandleRequest(ActivateUserRequest request, Result<SuccessPostResponse> result)
         {
-            var user = await _unitOfWork.Repository.GetById(request.UserId);
-            var validationResult = await user.Create(_unitOfWork.Repository);
-            if (user.IsActive)
-            {
-                
-                validationResult.ValidationResult.AddValidationItem(UserValidationItems.User.AlreadyActive);                
-                result.SetValidationResult(validationResult.ValidationResult);
-                return result;
-            }
+            var user = await _unitOfWork.Repository.GetById(_userId);          
+            
 
-            user.IsActive = true;   
+            user.IsActive = true;
+            var validationResult = await user.Update(_unitOfWork.Repository);
             result.SetValidationResult(validationResult.ValidationResult);      
             
             await _unitOfWork.SaveAsync();

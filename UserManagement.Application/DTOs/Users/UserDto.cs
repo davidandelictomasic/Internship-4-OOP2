@@ -8,6 +8,7 @@ namespace UserManagement.Application.DTOs.Users
         public string Name { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
+        public bool IsActive { get; set; }
 
         public static UserDto FromEntity(User u)
         {
@@ -16,7 +17,8 @@ namespace UserManagement.Application.DTOs.Users
                
                 Name = u.Name,
                 Username = u.Username,
-                Email = u.Email
+                Email = u.Email,
+                IsActive = u.IsActive
             };
         }
     }

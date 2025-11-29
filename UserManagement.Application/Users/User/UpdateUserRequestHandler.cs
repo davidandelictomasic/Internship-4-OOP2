@@ -25,7 +25,7 @@ namespace UserManagement.Application.Users.User
     public class UpdateUserRequestHandler : RequestHandler<UpdateUserRequest, SuccessPostResponse>
     {
         private readonly IUserUnitOfWork _unitOfWork;
-        private int _userId;//
+        private int _userId;
         public UpdateUserRequestHandler(IUserUnitOfWork userUnitOfWork)
         {
             _unitOfWork = userUnitOfWork;
@@ -33,7 +33,7 @@ namespace UserManagement.Application.Users.User
         public void SetUserId(int id)
         {
             _userId = id;
-        }//
+        }
         protected async override Task<Result<SuccessPostResponse>> HandleRequest(UpdateUserRequest request, Result<SuccessPostResponse> result)
         {
             var user = await _unitOfWork.Repository.GetById(_userId);

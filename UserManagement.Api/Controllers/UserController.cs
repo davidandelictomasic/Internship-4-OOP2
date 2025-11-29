@@ -55,6 +55,33 @@ namespace UserManagement.Api.Controllers
             return result.ToActionResult(this);
         }
 
+        [HttpPut("/activate/{id}")]
+        public async Task<ActionResult> ActivateUser(
+            [FromServices] IUserUnitOfWork unitOfWork,
+            [FromRoute] int id            
+
+            )
+        {
+            var requestHandler = new ActivateUserRequestHandler(unitOfWork);
+            requestHandler.SetUserId(id);
+            var result = await requestHandler.ProcessActiveRequestAsnync(new ActivateUserRequest());
+            return result.ToActionResult(this);
+        }
+        [HttpPut("/deactivate/{id}")]
+        public async Task<ActionResult> DeactivateUser(
+            [FromServices] IUserUnitOfWork unitOfWork,
+            [FromRoute] int id
+            
+
+            )
+        {
+            var requestHandler = new DeactivateUserRequestHandler(unitOfWork);
+            requestHandler.SetUserId(id);
+
+            var result = await requestHandler.ProcessActiveRequestAsnync(new DeactivateUserRequest());
+            return result.ToActionResult(this);
+        }
+
 
     }
 }
