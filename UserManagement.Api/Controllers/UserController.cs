@@ -56,7 +56,7 @@ namespace UserManagement.Api.Controllers
             return result.ToActionResult(this);
         }
 
-        [HttpPut("/activate/{id}")]
+        [HttpPut("activate/{id}")]
         public async Task<ActionResult> ActivateUser(
             [FromServices] IUserUnitOfWork unitOfWork,
             [FromRoute] int id            
@@ -68,12 +68,10 @@ namespace UserManagement.Api.Controllers
             var result = await requestHandler.ProcessActiveRequestAsnync(new ActivateUserRequest());
             return result.ToActionResult(this);
         }
-        [HttpPut("/deactivate/{id}")]
+        [HttpPut("deactivate/{id}")]
         public async Task<ActionResult> DeactivateUser(
             [FromServices] IUserUnitOfWork unitOfWork,
-            [FromRoute] int id
-            
-
+            [FromRoute] int id           
             )
         {
             var requestHandler = new DeactivateUserRequestHandler(unitOfWork);
@@ -82,7 +80,21 @@ namespace UserManagement.Api.Controllers
             var result = await requestHandler.ProcessActiveRequestAsnync(new DeactivateUserRequest());
             return result.ToActionResult(this);
         }
-        [HttpPost("/import-external")]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteUser(
+            [FromServices] IUserUnitOfWork unitOfWork,
+            [FromRoute] int id
+            )
+        {
+            var requestHandler = new DeleteUserRequestHandler(unitOfWork);
+            requestHandler.SetUserId(id);
+
+            var result = await requestHandler.ProcessActiveRequestAsnync(new DeleteUserRequest());
+            return result.ToActionResult(this);
+        }
+
+
+        [HttpPost("import-external")]
         public async Task<ActionResult> GetApi(
             [FromServices] IUserUnitOfWork unitOfWork,
             [FromServices] IUserCacheService cacheService,

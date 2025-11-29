@@ -12,14 +12,19 @@ namespace UserManagement.Application.Users.User
     public class DeleteUserRequestHandler : RequestHandler<DeleteUserRequest, SuccessPostResponse>
     {
         private readonly IUserUnitOfWork _unitOfWork;
+        private int _userId;
         public DeleteUserRequestHandler(IUserUnitOfWork userUnitOfWork)
         {
             _unitOfWork = userUnitOfWork;
         }
+        public void SetUserId(int id)
+        {
+            _userId = id;
+        }
         protected async override Task<Result<SuccessPostResponse>> HandleRequest(DeleteUserRequest request, Result<SuccessPostResponse> result)
         {
-            var user = await _unitOfWork.Repository.GetById(request.UserId);
-            var validationResult = await user.Create(_unitOfWork.Repository);     
+            var user = await _unitOfWork.Repository.GetById(_userId);
+            var validationResult = await user.Update(_unitOfWork.Repository);     
 
             
             result.SetValidationResult(validationResult.ValidationResult);
