@@ -32,12 +32,12 @@ namespace UserManagement.Infrastructure.Service
                 Name = u.Name,
                 Username = u.Username,
                 Email = u.Email,
-                AddressStreet = u.AddressStreet,
-                AddressCity = u.AddressCity,
+                AddressStreet = u.Address.Street,
+                AddressCity = u.Address.Street,
                 Website = u.Website,
                 Password = Guid.NewGuid().ToString(),
-                GeoLongitude = (double)u.GeoLat,
-                GeoLatitude = (double)u.GeoLng
+                GeoLongitude = (double)u.Address.Geo.Lat,
+                GeoLatitude = (double)u.Address.Geo.Lng
             }).ToList();
 
             var expiration = DateTime.Today.AddDays(1) - DateTime.UtcNow;
