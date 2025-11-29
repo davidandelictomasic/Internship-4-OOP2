@@ -14,7 +14,7 @@
                 return result;
             }
             await HandleRequest(request, result);
-            //ovdje stavljati u cache ako treba
+           
             return result;
         }
         protected abstract Task<Result<TResult>> HandleRequest(TRequst request, Result<TResult> result);

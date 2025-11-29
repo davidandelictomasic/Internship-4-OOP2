@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using UserManagement.Application.Common.Interfaces;
 using UserManagement.Domain.Persistence.Common;
 using UserManagement.Domain.Persistence.Companies;
 using UserManagement.Domain.Persistence.Users;
@@ -8,6 +9,7 @@ using UserManagement.Infrastructure.Dapper;
 using UserManagement.Infrastructure.Repositories.Common;
 using UserManagement.Infrastructure.Repositories.Companies;
 using UserManagement.Infrastructure.Repositories.Users;
+using UserManagement.Infrastructure.Service;
 
 namespace UserManagement.Infrastructure.Database
 {
@@ -36,7 +38,11 @@ namespace UserManagement.Infrastructure.Database
             services.AddScoped<IUserUnitOfWork, UserUnitOfWork>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<ICompanyUnitOfWork, CompanyUnitOfWork>();
+            services.AddScoped<IUserCacheService, ExternalUserCacheService>();
+            services.AddScoped<IExternalUserApi, ExternalUserApi>();
+            
 
+            services.AddMemoryCache();
             services.AddSingleton<IDapperManager>(sp =>
             {
                 var config = sp.GetRequiredService<IConfiguration>();

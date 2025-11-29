@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UserManagement.Api.Common;
+using UserManagement.Application.Common.Interfaces;
 using UserManagement.Application.Users.User;
 using UserManagement.Domain.Persistence.Users;
 
@@ -79,6 +80,18 @@ namespace UserManagement.Api.Controllers
             requestHandler.SetUserId(id);
 
             var result = await requestHandler.ProcessActiveRequestAsnync(new DeactivateUserRequest());
+            return result.ToActionResult(this);
+        }
+        [HttpPost("/import-external")]
+        public async Task<ActionResult> GetApi(
+            [FromServices] IUserUnitOfWork unitOfWork,
+            [FromServices] IUserCacheService cacheService,
+            [FromBody] ImportExternalUsersRequest request
+
+            )
+        {
+            var requestHandler = new ImportExternalUsersRequestHandler(unitOfWork,cacheService);
+            var result = await requestHandler.ProcessActiveRequestAsnync(request);
             return result.ToActionResult(this);
         }
 
