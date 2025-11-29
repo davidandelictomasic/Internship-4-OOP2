@@ -10,5 +10,5 @@
         public decimal GeoLat { get; set; }
         public decimal GeoLng { get; set; }
         public string? Website { get; set; }
-    }
+    } 
 }
