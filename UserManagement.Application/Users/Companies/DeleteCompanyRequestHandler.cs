@@ -34,7 +34,7 @@ namespace UserManagement.Application.Users.Companies
             result.SetValidationResult(validationResult.ValidationResult);
             await _unitOfWork.Repository.DeleteAsync(request.CompanyId);
             await _unitOfWork.SaveAsync();
-            result.SetResult(new SuccessPostResponse(company.ID));
+            
             return result;
         }
 

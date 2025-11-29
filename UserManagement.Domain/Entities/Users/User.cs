@@ -14,7 +14,9 @@ namespace UserManagement.Domain.Entities.Users
         public string Email { get;  set; }
         public string AddressStreet { get;  set; }
         public string AddressCity { get;  set; }
-        public GeoLocation GeoLocation { get;  set; }
+        public double GeoLatitude { get; set; }
+        public double GeoLongitude { get; set; }
+
         public string? Website { get;  set; }
         public string Password { get;  set; }
         
@@ -44,6 +46,15 @@ namespace UserManagement.Domain.Entities.Users
 
             
             return validationResult;
+        }
+        public async Task<Result<bool>> Update(IUserRepository userRepository)
+        {
+            var validationResult = await CreateOrUpdateValidation();
+            if (validationResult.HasError)
+                return new Result<bool>(false, validationResult);
+
+            userRepository.Update(this);
+            return new Result<bool>(true, validationResult);
         }
     }
 }

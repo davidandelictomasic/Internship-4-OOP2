@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UserManagement.Application.Common.Model;
-using UserManagement.Domain.Common.Validation;
+﻿using UserManagement.Application.Common.Model;
 using UserManagement.Domain.Common.Validation.ValidationItems;
-using UserManagement.Domain.Entities.Users;
 using UserManagement.Domain.Persistence.Users;
 
 namespace UserManagement.Application.Users.User
@@ -40,7 +33,7 @@ namespace UserManagement.Application.Users.User
             result.SetValidationResult(validationResult.ValidationResult);      
             
             await _unitOfWork.SaveAsync();
-            result.SetResult(new SuccessPostResponse(user.ID));
+            result.SetResult(new SuccessPostResponse(user.Id));
             return result;
         }
 

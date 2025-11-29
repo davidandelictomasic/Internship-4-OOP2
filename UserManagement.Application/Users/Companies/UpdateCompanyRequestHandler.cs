@@ -40,7 +40,7 @@ namespace UserManagement.Application.Users.Companies
                 return result;
             _unitOfWork.Repository.Update(company);
             await _unitOfWork.SaveAsync();
-            result.SetResult(new SuccessPostResponse(company.ID));
+            result.SetResult(new SuccessPostResponse(company.Id));
             return result;
         }
 

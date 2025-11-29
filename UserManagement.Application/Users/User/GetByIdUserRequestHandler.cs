@@ -11,10 +11,18 @@ namespace UserManagement.Application.Users.User
     public class GetByIdUserRequest
     {
         public int Id { get; init; }
+        public GetByIdUserRequest(int id)
+        {
+            Id = id;
+        }   
     }
     public class GetByIdUserRequestHandler : RequestHandler<GetByIdUserRequest, UserDto>
     {
         private readonly IUserUnitOfWork _unitOfWork;
+        public GetByIdUserRequestHandler(IUserUnitOfWork userUnitOfWork)
+        {
+            _unitOfWork = userUnitOfWork;
+        }
 
         protected async override Task<Common.Model.Result<UserDto>> HandleRequest(GetByIdUserRequest request, Common.Model.Result<UserDto> result)
         {
@@ -29,7 +37,7 @@ namespace UserManagement.Application.Users.User
 
         protected override Task<bool> IsActive()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(true);
         }
     }
 }

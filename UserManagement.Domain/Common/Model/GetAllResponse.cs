@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UserManagement.Domain.Common.Model
+﻿namespace UserManagement.Domain.Common.Model
 {
-    internal class GetAllResponse
+    public class GetAllResponse<TValue>
     {
+        public IEnumerable<TValue> Values { get; init; }
     }
 }

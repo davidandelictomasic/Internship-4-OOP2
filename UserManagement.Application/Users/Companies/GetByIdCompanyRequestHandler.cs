@@ -7,6 +7,7 @@ namespace UserManagement.Application.Users.Companies
     public class GetByIdCompanyRequest
     {
         public int Id { get; init; }
+
     }
     public class GetByIdCompanyRequestHandler : RequestHandler<GetByIdCompanyRequest, CompanyDto>
     {

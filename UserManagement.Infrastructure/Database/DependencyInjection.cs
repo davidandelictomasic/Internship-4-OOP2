@@ -2,9 +2,11 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using UserManagement.Domain.Persistence.Common;
+using UserManagement.Domain.Persistence.Companies;
 using UserManagement.Domain.Persistence.Users;
 using UserManagement.Infrastructure.Dapper;
 using UserManagement.Infrastructure.Repositories.Common;
+using UserManagement.Infrastructure.Repositories.Companies;
 using UserManagement.Infrastructure.Repositories.Users;
 
 namespace UserManagement.Infrastructure.Database
@@ -32,6 +34,8 @@ namespace UserManagement.Infrastructure.Database
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserUnitOfWork, UserUnitOfWork>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<ICompanyUnitOfWork, CompanyUnitOfWork>();
 
             services.AddSingleton<IDapperManager>(sp =>
             {

@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using UserManagement.Domain.Enumumerations.Validation;
 
 namespace UserManagement.Domain.Common.Validation
 {
-    internal class ValidationItem
+    public class ValidationItem
     {
+        public ValidationSeverity ValidationSeverity { get; set; }
+        public ValidationType ValidationType { get; set; }
+        public string Code { get; set; }
+        public string Message { get; set; }
     }
 }

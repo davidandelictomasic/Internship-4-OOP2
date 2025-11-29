@@ -11,21 +11,23 @@ namespace UserManagement.Infrastructure.Database.Configurations.Users
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("Users");
-            builder.HasKey(u => u.ID);
+            builder.HasKey(u => u.Id);
 
-            builder.Property(u => u.ID).HasColumnName("Id");
+            builder.Property(u => u.Id).HasColumnName("id");
 
             builder.Property(u => u.Name).HasColumnName("name");
             builder.Property(u => u.Username).HasColumnName("username");
             builder.Property(u => u.Email).HasColumnName("email");
             builder.Property(u => u.AddressStreet).HasColumnName("address_street");
             builder.Property(u => u.AddressCity).HasColumnName("address_city");
-            builder.Property(u => u.GeoLocation).HasColumnName("geo_location");
+            builder.Property(u => u.GeoLatitude).HasColumnName("geo_lat");
+            builder.Property(u => u.GeoLongitude).HasColumnName("geo_lng");
             builder.Property(u => u.Website).HasColumnName("website");
             builder.Property(u => u.Password).HasColumnName("password");
-           
+            builder.Property(u => u.IsActive).HasColumnName("is_active");
 
 
-    }
+
+        }
     }
 }

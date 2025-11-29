@@ -4,7 +4,7 @@ using UserManagement.Domain.Entities.Users;
 
 namespace UserManagement.Infrastructure.Database
 {
-    internal class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

@@ -1,5 +1,4 @@
-﻿
-using UserManagement.Domain.Common.Model;
+﻿using UserManagement.Domain.Common.Model;
 
 namespace UserManagement.Domain.Persistence.Common
 {
@@ -10,6 +9,7 @@ namespace UserManagement.Domain.Persistence.Common
         void Update(TEntity entity);       
         Task DeleteAsync(TId id);
         void Delete(TEntity? entity);
+        
 
 
     }

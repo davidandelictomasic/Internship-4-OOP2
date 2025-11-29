@@ -30,7 +30,7 @@ namespace UserManagement.Application.Users.Companies
             if (result.HasError)
                 return result;
             await _unitOfWork.SaveAsync();
-            result.SetResult(new SuccessPostResponse(company.ID));
+            result.SetResult(new SuccessPostResponse(company.Id));
             return result;
         }
 

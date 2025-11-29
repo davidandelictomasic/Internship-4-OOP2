@@ -26,6 +26,7 @@ namespace UserManagement.Infrastructure.Repositories.Common
         public void Update(TEntity entity)
         {
             _dbSet.Update(entity);
+           
         }
         public Task<GetAllResponse<TEntity>> Get()
         {
@@ -50,5 +51,6 @@ namespace UserManagement.Infrastructure.Repositories.Common
                 _dbSet.Remove(entity);
             }
         }
+        
     }
 }

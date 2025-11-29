@@ -1,4 +1,5 @@
-﻿using UserManagement.Application.Common.Validation;
+﻿using System.Linq;
+using UserManagement.Application.Common.Validation;
 using UserManagement.Domain.Common.Validation;
 using UserManagement.Domain.Enumumerations.Validation;
 
@@ -28,9 +29,9 @@ namespace UserManagement.Application.Common.Model
             get => _warnings.AsReadOnly();
             init => _warnings.AddRange(value);
         }
-        public bool HasError => Errors.All(validationResult => validationResult.ValidationSeverity == ValidationSeverity.Error);
-        public bool HasInfo => Infos.All(validationResult => validationResult.ValidationSeverity == ValidationSeverity.Info);
-        public bool HasWarning => Warnings.All(validationResult => validationResult.ValidationSeverity == ValidationSeverity.Warning);
+        public bool HasError => Errors.Any(validationResult => validationResult.ValidationSeverity == ValidationSeverity.Error);
+        public bool HasInfo => Infos.Any(validationResult => validationResult.ValidationSeverity == ValidationSeverity.Info);
+        public bool HasWarning => Warnings.Any(validationResult => validationResult.ValidationSeverity == ValidationSeverity.Warning);
 
         public void SetResult(TVaule? value)
         {

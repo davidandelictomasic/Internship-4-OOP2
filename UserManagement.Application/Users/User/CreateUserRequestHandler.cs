@@ -11,7 +11,8 @@ namespace UserManagement.Application.Users.User
         public string Email { get;  set; }
         public string AddressStreet { get;  set; }
         public string AddressCity { get;  set; }
-        public GeoLocation GeoLocation { get;  set; }
+        public double GeoLatitude { get; set; }
+        public double GeoLongitude { get; set; }
         public string? Website { get;  set; }
         public string Password { get;  set; }
         
@@ -33,7 +34,9 @@ namespace UserManagement.Application.Users.User
                 AddressStreet = request.AddressStreet,
                 AddressCity = request.AddressCity,                
                 Website = request.Website,
-                Password = request.Password
+                Password = request.Password,
+                GeoLongitude = request.GeoLongitude,
+                GeoLatitude = request.GeoLatitude
 
 
             };
@@ -42,7 +45,7 @@ namespace UserManagement.Application.Users.User
             if (result.HasError)
                 return result;
             await _unitOfWork.SaveAsync();
-            result.SetResult(new SuccessPostResponse(user.ID));
+            result.SetResult(new SuccessPostResponse(user.Id));
             return result;
         }
 
