@@ -19,13 +19,12 @@ namespace UserManagement.Application.Users.User
         }
         protected async override Task<Result<SuccessPostResponse>> HandleRequest(ActivateUserRequest request, Result<SuccessPostResponse> result)
         {
-            var user = await _unitOfWork.Repository.GetById(_userId);          
-            
+            var user = await _unitOfWork.Repository.GetById(_userId);                  
 
             user.IsActive = true;
-            var validationResult = await user.Update(_unitOfWork.Repository);
-            result.SetValidationResult(validationResult.ValidationResult);      
-            
+            _unitOfWork.Repository.Update(user);
+
+
             await _unitOfWork.SaveAsync();
             result.SetResult(new SuccessPostResponse(user.Id));
             return result;
