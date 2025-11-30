@@ -22,7 +22,7 @@ namespace UserManagement.Application.Users.User
             var user = await _unitOfWork.Repository.GetById(_userId);                  
 
             user.IsActive = true;
-            _unitOfWork.Repository.Update(user);
+            _unitOfWork.Repository.Update(user); 
 
 
             await _unitOfWork.SaveAsync();

@@ -24,11 +24,9 @@ namespace UserManagement.Application.Users.User
         protected async override Task<Result<SuccessPostResponse>> HandleRequest(DeleteUserRequest request, Result<SuccessPostResponse> result)
         {
             var user = await _unitOfWork.Repository.GetById(_userId);
-            var validationResult = await user.Update(_unitOfWork.Repository);     
+            var validationResult = await user.Update(_unitOfWork.Repository);
 
-            
-            //result.SetValidationResult(validationResult.ValidationResult);
-            await _unitOfWork.Repository.DeleteAsync(request.UserId);
+            _unitOfWork.Repository.Delete(user);
             await _unitOfWork.SaveAsync();
             result.SetResult(new SuccessPostResponse(user.Id));
             return result;
