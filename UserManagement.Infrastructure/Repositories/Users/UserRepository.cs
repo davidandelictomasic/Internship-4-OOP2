@@ -23,8 +23,14 @@ namespace UserManagement.Infrastructure.Repositories.Users
             var parameters = new { Id = id };
             return await _dapperManager.QuerySingleAsync<User>(sql, parameters);
         }
+        public async Task<User?> GetByUsernameAsync(string username)
+        {
+            var sql = "SELECT id as ID, name as Name,username as Username,email as Email,address_street as AddressStreet,address_city as AddressCity,geo_lat as GeoLatitude,geo_lng as GeoLongitude,website as Website,password as Password,is_active as IsActive FROM public.\"Users\" WHERE Username = @Username";
 
-        
+            var parameters = new { Username = username };
+            return await _dapperManager.QuerySingleAsync<User>(sql, parameters);
+        }
+
 
     }
 }

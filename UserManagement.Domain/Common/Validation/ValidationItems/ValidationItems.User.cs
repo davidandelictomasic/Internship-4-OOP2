@@ -29,7 +29,7 @@ namespace UserManagement.Domain.Common.Validation.ValidationItems
                 Code = $"{CodePrefix}_003",
                 Message = $"Email needs to be unique."
             };
-            public static readonly ValidationItem EmailValid = new ValidationItem
+            public static readonly ValidationItem EmailInvalid = new ValidationItem
             {
                 ValidationSeverity = ValidationSeverity.Error,
                 ValidationType = ValidationType.FormalValidation,
@@ -63,6 +63,20 @@ namespace UserManagement.Domain.Common.Validation.ValidationItems
                 ValidationType = ValidationType.BusinessRule, 
                 Code = $"{CodePrefix}_008",
                 Message = "User is already inactive."
+            };
+            public static readonly ValidationItem AddressStreetNameMaxLength = new ValidationItem
+            {
+                ValidationSeverity = ValidationSeverity.Error,
+                ValidationType = ValidationType.FormalValidation,
+                Code = $"{CodePrefix}_009",
+                Message = $"Address street name exceeds maximum length({Entities.Users.User.AddressStreetMaxLength})."
+            };
+            public static readonly ValidationItem AddressCityNameMaxLength = new ValidationItem
+            {
+                ValidationSeverity = ValidationSeverity.Error,
+                ValidationType = ValidationType.FormalValidation,
+                Code = $"{CodePrefix}_010",
+                Message = $"Address city name exceeds maximum length({Entities.Users.User.AddressCityMaxLength})."
             };
 
 

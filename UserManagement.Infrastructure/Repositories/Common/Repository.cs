@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using UserManagement.Domain.Common.Model;
 using UserManagement.Domain.Persistence.Common;
 
@@ -51,6 +52,10 @@ namespace UserManagement.Infrastructure.Repositories.Common
                 _dbSet.Remove(entity);
             }
         }
-        
+        public async Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await _dbSet.FirstOrDefaultAsync(predicate);
+        }
+
     }
 }

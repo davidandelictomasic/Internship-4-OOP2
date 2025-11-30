@@ -1,7 +1,9 @@
 ﻿
 using UserManagement.Domain.Abstractions;
 using UserManagement.Domain.Common.Model;
+using UserManagement.Domain.Common.Validation;
 using UserManagement.Domain.Common.Validation.ValidationItems;
+using UserManagement.Domain.Persistence.Common;
 using UserManagement.Domain.Persistence.Users;
 
 
@@ -29,7 +31,7 @@ namespace UserManagement.Domain.Entities.Users
 
         public async Task<Result<bool>> Create(IUserRepository userRepository)
         {
-            var validationResult = await CreateOrUpdateValidation();
+            var validationResult = await CreateOrUpdateValidation(userRepository);
             if(validationResult.HasError)
                 return new Result<bool>(false, validationResult);
             await userRepository.InsertAsync(this);
@@ -37,19 +39,34 @@ namespace UserManagement.Domain.Entities.Users
 
 
         }
-        public async Task<Common.Validation.ValidationResult> CreateOrUpdateValidation()
+        public async Task<ValidationResult> CreateOrUpdateValidation(IUserRepository userRepository)
         {
-            var validationResult = new Common.Validation.ValidationResult();
+            var validationResult = new ValidationResult();
             if (Name?.Length > NameMaxLength)
                 validationResult.AddValidationItem(UserValidationItems.User.NameMaxLength);
+            if (AddressStreet?.Length > AddressStreetMaxLength)
+                validationResult.AddValidationItem(UserValidationItems.User.AddressStreetNameMaxLength);
+            if (AddressCity?.Length > AddressCityMaxLength)
+                validationResult.AddValidationItem(UserValidationItems.User.AddressCityNameMaxLength);
+            if(Website?.Length > WebsiteMaxLength)
+                validationResult.AddValidationItem(UserValidationItems.User.WebsiteMaxLength);
+            if (!EmailValidator.IsValidEmail(Email))
+                validationResult.AddValidationItem(UserValidationItems.User.EmailInvalid);
+            if (!UrlValidator.IsValidUrl(Website))
+                validationResult.AddValidationItem(UserValidationItems.User.WebisteValidUrlPattern);
 
 
-            
+
+
+
+
+
+
             return validationResult;
         }
         public async Task<Result<bool>> Update(IUserRepository userRepository)
         {
-            var validationResult = await CreateOrUpdateValidation();
+            var validationResult = await CreateOrUpdateValidation(userRepository);
             if (validationResult.HasError)
                 return new Result<bool>(false, validationResult);
 
