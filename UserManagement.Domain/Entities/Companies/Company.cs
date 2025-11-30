@@ -2,6 +2,7 @@
 using UserManagement.Domain.Common.Model;
 using UserManagement.Domain.Common.Validation.ValidationItems;
 using UserManagement.Domain.Persistence.Companies;
+using UserManagement.Domain.Persistence.Users;
 
 namespace UserManagement.Domain.Entities.Companies
 {
@@ -29,6 +30,15 @@ namespace UserManagement.Domain.Entities.Companies
 
 
             return validationResult;
+        }
+        public async Task<Result<bool>> Update(ICompanyRepository companyRepository)
+        {
+            var validationResult = await CreateOrUpdateValidation();
+            if (validationResult.HasError)
+                return new Result<bool>(false, validationResult);
+
+            companyRepository.Update(this);
+            return new Result<bool>(true, validationResult);
         }
     }
 }

@@ -11,6 +11,7 @@ namespace UserManagement.Domain.Persistence.Users
         Task<User?> GetByUsernameAsync(string username);
         Task<User?> GetByEmailAsync(string email);
         Task<User?> GetByGeoAsync(double geoLat, double geoLng);
+        Task<List<User>> GetAll();
 
 
     }

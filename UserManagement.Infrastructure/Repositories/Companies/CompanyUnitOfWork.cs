@@ -6,10 +6,10 @@ namespace UserManagement.Infrastructure.Repositories.Companies
 {
     public class CompanyUnitOfWork : ICompanyUnitOfWork
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly CompanyDbContext _dbContext;
         public ICompanyRepository Repository { get; set; }
 
-        public CompanyUnitOfWork(ApplicationDbContext dbContext, ICompanyRepository companyRepository)
+        public CompanyUnitOfWork(CompanyDbContext dbContext, ICompanyRepository companyRepository)
         {
             _dbContext = dbContext;
             Repository = companyRepository;

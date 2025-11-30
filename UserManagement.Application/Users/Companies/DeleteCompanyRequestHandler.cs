@@ -9,12 +9,12 @@ namespace UserManagement.Application.Users.Companies
     {
         public int CompanyId { get; init; }
         public string UserName { get; init; }
-        public string UserEmail { get; init; }
-        public DeleteCompanyRequest(int companyId, string userName, string userEmail)
+        public string UserPassword { get; init; }
+        public DeleteCompanyRequest(int companyId, string userName, string userPassword)
         {
             CompanyId = companyId;
             UserName = userName;
-            UserEmail = userEmail;
+            UserPassword = userPassword;
         }
 
     }
@@ -28,7 +28,7 @@ namespace UserManagement.Application.Users.Companies
         protected async override Task<Result<SuccessPostResponse>> HandleRequest(DeleteCompanyRequest request, Result<SuccessPostResponse> result)
         {
             var company = await _unitOfWork.Repository.GetById(request.CompanyId);
-            var validationResult = await company.Create(_unitOfWork.Repository);
+            var validationResult = await company.Update(_unitOfWork.Repository);
             // isActive logic
 
             result.SetValidationResult(validationResult.ValidationResult);

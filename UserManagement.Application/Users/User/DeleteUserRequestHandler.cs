@@ -27,7 +27,7 @@ namespace UserManagement.Application.Users.User
             var validationResult = await user.Update(_unitOfWork.Repository);     
 
             
-            result.SetValidationResult(validationResult.ValidationResult);
+            //result.SetValidationResult(validationResult.ValidationResult);
             await _unitOfWork.Repository.DeleteAsync(request.UserId);
             await _unitOfWork.SaveAsync();
             result.SetResult(new SuccessPostResponse(user.Id));

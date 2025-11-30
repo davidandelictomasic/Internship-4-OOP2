@@ -10,6 +10,13 @@ namespace UserManagement.Application.Users.Companies
     public class GetAllCompaniesRequestHandler : RequestHandler<GetAllCompaniesRequest, List<CompanyDto>>
     {
         private readonly ICompanyUnitOfWork _unitOfWork;
+        private string _userUsername;
+        private string _userPassword;
+        public void SetUserData(string username,string password)
+        {
+            _userUsername = username;
+            _userPassword = password;
+        }
         public GetAllCompaniesRequestHandler(ICompanyUnitOfWork companyUnitOfWork)
         {
             _unitOfWork = companyUnitOfWork;

@@ -16,10 +16,10 @@ namespace UserManagement.Application.Users.User
         protected async override Task<Result<List<UserDto>>> HandleRequest(GetAllUsersRequest request, Result<List<UserDto>> result)
         {
 
-            var users = await _unitOfWork.Repository.Get(); 
+            var users = await _unitOfWork.Repository.GetAll(); 
             
 
-            var dto = users.Values
+            var dto = users
                 .Select(UserDto.FromEntity)
                 .ToList();
 

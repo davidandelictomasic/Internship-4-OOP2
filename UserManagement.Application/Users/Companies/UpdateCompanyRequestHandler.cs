@@ -9,32 +9,32 @@ namespace UserManagement.Application.Users.Companies
     public class UpdateCompanyRequest
 
     {
-        public int UserId { get; set; }
+        public string UserUsername { get; set; }
+        public string UserPassword { get; set; }
         public string NewName { get; set; }
-        public string NewUsername { get; set; }
-        public string NewEmail { get; set; }
-        public string NewAddressStreet { get; set; }
-        public string NewAddressCity { get; set; }
-        public GeoLocation NewGeoLocation { get; set; }
-        public string? NewWebsite { get; set; }
-        public string NewPassword { get; set; }
+       
 
     }
     public class UpdateCompanyRequestHandler : RequestHandler<UpdateCompanyRequest, SuccessPostResponse>
     {
         private readonly ICompanyUnitOfWork _unitOfWork;
+        private int _companyId;
         public UpdateCompanyRequestHandler(ICompanyUnitOfWork companyUnitOfWork)
         {
             _unitOfWork = companyUnitOfWork;
         }
+        public void SetCompanyId(int id)
+        {
+            _companyId = id;
+        }
         protected async override Task<Result<SuccessPostResponse>> HandleRequest(UpdateCompanyRequest request, Result<SuccessPostResponse> result)
         {
-            var company = await _unitOfWork.Repository.GetById(request.UserId);
+            var company = await _unitOfWork.Repository.GetById(_companyId);
             company.Name = request.NewName;        
 
 
 
-            var validationResult = await company.Create(_unitOfWork.Repository);
+            var validationResult = await company.Update(_unitOfWork.Repository);
             result.SetValidationResult(validationResult.ValidationResult);
             if (result.HasError)
                 return result;

@@ -4,7 +4,7 @@ using UserManagement.Domain.Persistence.Users;
 
 namespace UserManagement.Application.Users.User
 {
-    public class ImportExternalUsersRequest {   }
+    public class ImportExternalUsersRequest { }
     public class ImportExternalUsersRequestHandler : RequestHandler<ImportExternalUsersRequest, SuccessPostResponse>
     {
         private readonly IUserUnitOfWork _unitOfWork;
@@ -24,11 +24,12 @@ namespace UserManagement.Application.Users.User
                 foreach (var user in users)
                 {
                     var validationResult = await user.Create(_unitOfWork.Repository);
-                    
+                    await _unitOfWork.SaveAsync();
+
 
                 }
             }
-            await _unitOfWork.SaveAsync();
+            
 
             
             result.SetResult(new SuccessPostResponse());

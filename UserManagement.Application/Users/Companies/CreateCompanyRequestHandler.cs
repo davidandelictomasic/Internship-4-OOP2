@@ -8,7 +8,10 @@ namespace UserManagement.Application.Users.Companies
 {
     public class CreateCompanyRequest
     {
+        public string UserUsername { get; set; }
+        public string UserPassword { get; set; }
         public string Name { get; set; }
+         
         
 
     }

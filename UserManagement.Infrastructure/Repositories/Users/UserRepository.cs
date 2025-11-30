@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using UserManagement.Domain.Entities.Users;
 using UserManagement.Domain.Persistence.Users;
 using UserManagement.Infrastructure.Dapper;
+using UserManagement.Infrastructure.Dapper.Users;
 using UserManagement.Infrastructure.Database;
 using UserManagement.Infrastructure.Repositories.Common;
 
@@ -10,10 +11,19 @@ namespace UserManagement.Infrastructure.Repositories.Users
 {
     public class UserRepository : Repository<User, int>, IUserRepository
     {
-        private readonly ApplicationDbContext _dbContext;
-        private readonly IDapperManager _dapperManager;
-        public UserRepository(DbContext dbContext, IDapperManager dapperManager) : base(dbContext)
+
+        //private readonly IDapperManager _dapperManager;
+        //public UserRepository(DbContext dbContext, IDapperManager dapperManager) : base(dbContext)
+        //{
+        //    _dapperManager = dapperManager;
+        //}
+        private readonly UserDbContext _dbContext;
+        private readonly IUserDapperManager _dapperManager;
+
+        public UserRepository(UserDbContext dbContext, IUserDapperManager dapperManager)
+            : base(dbContext)
         {
+            _dbContext = dbContext;
             _dapperManager = dapperManager;
         }
 
@@ -23,6 +33,14 @@ namespace UserManagement.Infrastructure.Repositories.Users
             var parameters = new { Id = id };
             return await _dapperManager.QuerySingleAsync<User>(sql, parameters);
         }
+        public async Task<List<User>> GetAll()
+        {
+            var sql = "SELECT id as ID, name as Name,username as Username,email as Email,address_street as AddressStreet,address_city as AddressCity,geo_lat as GeoLatitude,geo_lng as GeoLongitude,website as Website,password as Password,is_active as IsActive FROM public.\"Users\" ";
+
+            var users = await _dapperManager.QueryAsync<User>(sql);
+            return users.ToList();
+        }
+
         public async Task<User?> GetByUsernameAsync(string username)
         {
             var sql = "SELECT id as ID, name as Name,username as Username,email as Email,address_street as AddressStreet,address_city as AddressCity,geo_lat as GeoLatitude,geo_lng as GeoLongitude,website as Website,password as Password,is_active as IsActive FROM public.\"Users\" WHERE Username = @Username LIMIT 1";
