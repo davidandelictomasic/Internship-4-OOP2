@@ -8,5 +8,10 @@ namespace UserManagement.Domain.Persistence.Users
     public interface IUserRepository : IRepository<User, int>
     {
         Task<User> GetById(int id);
+        Task<User?> GetByUsernameAsync(string username);
+
+        Task<User?> GetByEmailAsync(string email);
+
+
     }
 }

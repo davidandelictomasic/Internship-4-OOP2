@@ -34,7 +34,7 @@ namespace UserManagement.Application.Users.User
                 AddressStreet = request.AddressStreet,
                 AddressCity = request.AddressCity,                
                 Website = request.Website,
-                Password = request.Password,
+                Password = Guid.NewGuid().ToString(),
                 GeoLongitude = request.GeoLongitude,
                 GeoLatitude = request.GeoLatitude
 

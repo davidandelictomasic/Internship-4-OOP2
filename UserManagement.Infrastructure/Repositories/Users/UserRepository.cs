@@ -31,6 +31,14 @@ namespace UserManagement.Infrastructure.Repositories.Users
             return await _dapperManager.QuerySingleAsync<User>(sql, parameters);
         }
 
+        public async Task<User?> GetByEmailAsync(string email)
+        {
+            var sql = "SELECT id as ID, name as Name,username as Username,email as Email,address_street as AddressStreet,address_city as AddressCity,geo_lat as GeoLatitude,geo_lng as GeoLongitude,website as Website,password as Password,is_active as IsActive FROM public.\"Users\" WHERE Email = @Email";
+
+            var parameters = new { Email = email };
+            return await _dapperManager.QuerySingleAsync<User>(sql, parameters);
+        }
+
 
     }
 }

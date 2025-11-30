@@ -1,4 +1,5 @@
 ﻿using System.Net.Mail;
+using System.Text.RegularExpressions;
 
 namespace UserManagement.Domain.Common.Validation
 {
@@ -6,17 +7,19 @@ namespace UserManagement.Domain.Common.Validation
     {
         public static bool IsValidEmail(string email)
         {
-            if (string.IsNullOrWhiteSpace(email))
-                return false;
-            try
-            {
-                var addr = new MailAddress(email);
+            Regex emailRegex = new(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+;
+
+                if (string.IsNullOrEmpty(email))
+                    return false;
+                
+
+                if (!emailRegex.IsMatch(email))
+                    return false;
+            
+
                 return true;
-            }
-            catch
-            {
-                return false;
-            }
+            
         }
     }
 }

@@ -54,14 +54,12 @@ namespace UserManagement.Domain.Entities.Users
                 validationResult.AddValidationItem(UserValidationItems.User.EmailInvalid);
             if (!UrlValidator.IsValidUrl(Website))
                 validationResult.AddValidationItem(UserValidationItems.User.WebisteValidUrlPattern);
-
-
-
-
-
-
-
-
+            var existingUser = await userRepository.GetByUsernameAsync(Username);
+            if (existingUser != null)
+                validationResult.AddValidationItem(UserValidationItems.User.UsernameUnique);
+            existingUser = await userRepository.GetByEmailAsync(Email);
+            if (existingUser != null)
+                validationResult.AddValidationItem(UserValidationItems.User.EmailUnique);
             return validationResult;
         }
         public async Task<Result<bool>> Update(IUserRepository userRepository)
