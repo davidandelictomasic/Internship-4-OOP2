@@ -7,6 +7,7 @@
         public string Email { get; set; }
         public AddressDto Address { get; set; }
         public string? Website { get; set; }
+        public string UpdatedAt { get; set; }
     }
 
     public class AddressDto

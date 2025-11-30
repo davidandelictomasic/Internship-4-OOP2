@@ -17,9 +17,11 @@ namespace UserManagement.Application.Users.Companies
     public class GetByIdCompanyRequestHandler : RequestHandler<GetByIdCompanyRequest, CompanyDto>
     {
         private readonly ICompanyUnitOfWork _unitOfWork;
-        public GetByIdCompanyRequestHandler(ICompanyUnitOfWork companyUnitOfWork)
+        private readonly IUserUnitOfWork _userUnitOfWork;
+        public GetByIdCompanyRequestHandler(ICompanyUnitOfWork companyUnitOfWork,IUserUnitOfWork userUnitOfWork)
         {
             _unitOfWork = companyUnitOfWork;
+            _userUnitOfWork = userUnitOfWork;
         }
         private string _userUsername;
         private string _userPassword;
@@ -30,11 +32,21 @@ namespace UserManagement.Application.Users.Companies
         }
         protected async override Task<Result<CompanyDto>> HandleRequest(GetByIdCompanyRequest request, Result<CompanyDto> result)
         {
-            var company = await _unitOfWork.Repository.GetById(request.Id);
-            var dto = CompanyDto.FromEntity(company);
-            if (dto != null)
-                result.SetResult(dto);
+            var user = await _userUnitOfWork.Repository.GetByUsernameAndPasswordAsync(_userUsername, _userPassword);
+            if (user != null && user.IsActive)
+            {
+                var company = await _unitOfWork.Repository.GetById(request.Id);
+                if(company == null)
+                {
+                    return result;
+                }
+                var dto = CompanyDto.FromEntity(company);
+                if (dto != null)
+                    result.SetResult(dto);
+                return result;
+            }
             return result;
+
 
 
         }

@@ -6,8 +6,9 @@ using UserManagement.Domain.Persistence.Users;
 
 namespace UserManagement.Domain.Entities.Companies
 {
-    public class Company : Entity
+    public class Company 
     {
+        public int Id { get; private set; }
         public const int NameMaxLength = 150;
         public string Name { get;  set; }
 

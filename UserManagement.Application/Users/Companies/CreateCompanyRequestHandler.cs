@@ -18,23 +18,33 @@ namespace UserManagement.Application.Users.Companies
     public class CreateCompanyRequestHandler : RequestHandler<CreateCompanyRequest, SuccessPostResponse>
     {
         private readonly ICompanyUnitOfWork _unitOfWork;
-        public CreateCompanyRequestHandler(ICompanyUnitOfWork companyUnitOfWork)
+        private readonly IUserUnitOfWork _userUnitOfWork;
+        public CreateCompanyRequestHandler(ICompanyUnitOfWork companyUnitOfWork,IUserUnitOfWork userUnitOfWork)
         {
             _unitOfWork = companyUnitOfWork;
+            _userUnitOfWork = userUnitOfWork;
         }
         protected async override Task<Result<SuccessPostResponse>> HandleRequest(CreateCompanyRequest request, Result<SuccessPostResponse> result)
         {
-            var company = new Domain.Entities.Companies.Company
+            var user = await _userUnitOfWork.Repository.GetByUsernameAndPasswordAsync(request.UserUsername, request.UserPassword);
+            if (user != null && user.IsActive)
             {
-                Name = request.Name       
-            };
-            var validationResult = await company.Create(_unitOfWork.Repository);
-            result.SetValidationResult(validationResult.ValidationResult);
-            if (result.HasError)
+                var company = new Domain.Entities.Companies.Company
+                {
+                    Name = request.Name
+                };
+                var validationResult = await company.Create(_unitOfWork.Repository);
+                result.SetValidationResult(validationResult.ValidationResult);
+                if (result.HasError)
+                    return result;
+                await _unitOfWork.SaveAsync();
+                result.SetResult(new SuccessPostResponse(company.Id));
                 return result;
-            await _unitOfWork.SaveAsync();
-            result.SetResult(new SuccessPostResponse(company.Id));
-            return result;
+            }
+            else
+                return result;
+
+                
         }
 
         protected override Task<bool> IsActive()

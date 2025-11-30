@@ -37,7 +37,8 @@ namespace UserManagement.Infrastructure.Service
                 Website = u.Website,
                 Password = Guid.NewGuid().ToString(),
                 GeoLongitude = (double)u.Address.Geo.Lat,
-                GeoLatitude = (double)u.Address.Geo.Lng
+                GeoLatitude = (double)u.Address.Geo.Lng,
+                UpdatedAt = DateTime.UtcNow
             }).ToList();
 
             var expiration = DateTime.Today.AddDays(1) - DateTime.UtcNow;

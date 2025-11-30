@@ -8,12 +8,12 @@ namespace UserManagement.Application.Users.Companies
 
     {
         public int CompanyId { get; init; }
-        public string UserName { get; init; }
+        public string UserUsername { get; init; }
         public string UserPassword { get; init; }
         public DeleteCompanyRequest(int companyId, string userName, string userPassword)
         {
             CompanyId = companyId;
-            UserName = userName;
+            UserUsername = userName;
             UserPassword = userPassword;
         }
 
@@ -21,21 +21,36 @@ namespace UserManagement.Application.Users.Companies
     public class DeleteCompanyRequestHandler : RequestHandler<DeleteCompanyRequest, SuccessPostResponse>
     {
         private readonly ICompanyUnitOfWork _unitOfWork;
-        public DeleteCompanyRequestHandler(ICompanyUnitOfWork companyUnitOfWork)
+        private readonly IUserUnitOfWork _userUnitOfWork;
+        public DeleteCompanyRequestHandler(ICompanyUnitOfWork companyUnitOfWork, IUserUnitOfWork userUnitOfWork)
         {
             _unitOfWork = companyUnitOfWork;
+            _userUnitOfWork = userUnitOfWork;
         }
         protected async override Task<Result<SuccessPostResponse>> HandleRequest(DeleteCompanyRequest request, Result<SuccessPostResponse> result)
         {
-            var company = await _unitOfWork.Repository.GetById(request.CompanyId);
-            var validationResult = await company.Update(_unitOfWork.Repository);
-           
+            var user = await _userUnitOfWork.Repository.GetByUsernameAndPasswordAsync(request.UserUsername, request.UserPassword);
+            if (user != null && user.IsActive)
+            {
+                var company = await _unitOfWork.Repository.GetById(request.CompanyId);
+                if(company == null)
+                {
+                    return result;
+                }
+                var validationResult = await company.Update(_unitOfWork.Repository);
 
-            result.SetValidationResult(validationResult.ValidationResult);
-            await _unitOfWork.Repository.DeleteAsync(request.CompanyId);
-            await _unitOfWork.SaveAsync();
-            
-            return result;
+
+                result.SetValidationResult(validationResult.ValidationResult);
+                await _unitOfWork.Repository.DeleteAsync(request.CompanyId);
+                await _unitOfWork.SaveAsync();
+
+                return result;
+            }
+            else
+            {
+                return result;
+            }
+                
         }
 
         protected override Task<bool> IsActive()

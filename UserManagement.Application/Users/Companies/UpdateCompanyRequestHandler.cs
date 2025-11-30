@@ -18,10 +18,12 @@ namespace UserManagement.Application.Users.Companies
     public class UpdateCompanyRequestHandler : RequestHandler<UpdateCompanyRequest, SuccessPostResponse>
     {
         private readonly ICompanyUnitOfWork _unitOfWork;
+        private readonly IUserUnitOfWork _userUnitOfWork;
         private int _companyId;
-        public UpdateCompanyRequestHandler(ICompanyUnitOfWork companyUnitOfWork)
+        public UpdateCompanyRequestHandler(ICompanyUnitOfWork companyUnitOfWork,IUserUnitOfWork userUnitOfWork)
         {
             _unitOfWork = companyUnitOfWork;
+            _userUnitOfWork = userUnitOfWork;
         }
         public void SetCompanyId(int id)
         {
@@ -29,19 +31,26 @@ namespace UserManagement.Application.Users.Companies
         }
         protected async override Task<Result<SuccessPostResponse>> HandleRequest(UpdateCompanyRequest request, Result<SuccessPostResponse> result)
         {
-            var company = await _unitOfWork.Repository.GetById(_companyId);
-            company.Name = request.NewName;        
-
-
-
-            var validationResult = await company.Update(_unitOfWork.Repository);
-            result.SetValidationResult(validationResult.ValidationResult);
-            if (result.HasError)
+            var user = await _userUnitOfWork.Repository.GetByUsernameAndPasswordAsync(request.UserUsername, request.UserPassword);
+            if (user != null && user.IsActive)
+            {
+                var company = await _unitOfWork.Repository.GetById(_companyId);
+                if(company == null)
+                {
+                    return result;
+                }
+                company.Name = request.NewName;
+                var validationResult = await company.Update(_unitOfWork.Repository);
+                result.SetValidationResult(validationResult.ValidationResult);
+                if (result.HasError)
+                    return result;
+                _unitOfWork.Repository.Update(company);
+                await _unitOfWork.SaveAsync();
+                result.SetResult(new SuccessPostResponse(company.Id));
                 return result;
-            _unitOfWork.Repository.Update(company);
-            await _unitOfWork.SaveAsync();
-            result.SetResult(new SuccessPostResponse(company.Id));
+            }
             return result;
+                
         }
 
         protected override Task<bool> IsActive()
