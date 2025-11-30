@@ -10,11 +10,11 @@ namespace UserManagement.Infrastructure.Database.Configurations.Users
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("Users");
+            builder.ToTable("users");
             builder.HasKey(u => u.Id);
 
             builder.Property(u => u.Id).HasColumnName("id");
-
+            builder.Property(u => u.UpdatedAt).HasColumnName("updated_at");
             builder.Property(u => u.Name).HasColumnName("name");
             builder.Property(u => u.Username).HasColumnName("username");
             builder.Property(u => u.Email).HasColumnName("email");

@@ -29,7 +29,7 @@ namespace UserManagement.Application.Users.Companies
         {
             var company = await _unitOfWork.Repository.GetById(request.CompanyId);
             var validationResult = await company.Update(_unitOfWork.Repository);
-            // isActive logic
+           
 
             result.SetValidationResult(validationResult.ValidationResult);
             await _unitOfWork.Repository.DeleteAsync(request.CompanyId);

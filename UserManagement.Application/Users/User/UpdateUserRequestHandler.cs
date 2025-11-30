@@ -17,7 +17,7 @@ namespace UserManagement.Application.Users.User
         public double GeoLatitude { get; set; }
         public double GeoLongitude { get; set; }
         public string? NewWebsite { get; set; }
-        public string NewPassword { get; set; }
+        
 
         
 
@@ -42,10 +42,10 @@ namespace UserManagement.Application.Users.User
             user.Email = request.NewEmail;
             user.AddressStreet = request.NewAddressStreet;
             user.AddressCity = request.NewAddressCity;
-            user.Website = request.NewWebsite;
-            user.Password = request.NewPassword;
+            user.Website = request.NewWebsite;            
             user.GeoLatitude = request.GeoLatitude;
             user.GeoLongitude = request.GeoLongitude;
+            user.UpdatedAt = DateTime.UtcNow;
 
 
 

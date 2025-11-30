@@ -26,7 +26,9 @@ namespace UserManagement.Application.Users.User
         protected async override Task<Result<SuccessPostResponse>> HandleRequest(DeactivateUserRequest request, Result<SuccessPostResponse> result)
         {
             var user = await _unitOfWork.Repository.GetById(_userId);
-            user.IsActive = false;            
+            user.IsActive = false;
+            user.UpdatedAt = DateTime.UtcNow;
+
             _unitOfWork.Repository.Update(user);
 
             await _unitOfWork.SaveAsync();

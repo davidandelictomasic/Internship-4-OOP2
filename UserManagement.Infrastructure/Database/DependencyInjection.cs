@@ -26,11 +26,7 @@ namespace UserManagement.Infrastructure.Database
 
         private static void AddDatabase(IServiceCollection services, IConfiguration configuration)
         {
-            //string? connectionString = configuration.GetConnectionString("Database");
-            //if (string.IsNullOrEmpty(connectionString))
-            //{
-            //    throw new ArgumentNullException(nameof(connectionString));
-            //}
+            
             string? userDbConnection = configuration.GetConnectionString("UserDatabase");
             string? companyDbConnection = configuration.GetConnectionString("CompanyDatabase");
 
@@ -63,12 +59,7 @@ namespace UserManagement.Infrastructure.Database
             services.AddScoped<ICompanyRepository, CompanyRepository>();
 
             services.AddMemoryCache();
-            //services.AddSingleton<IDapperManager>(sp =>
-            //{
-            //    var config = sp.GetRequiredService<IConfiguration>();
-            //    string cs = config.GetConnectionString("Database");
-            //    return new DapperManager(cs);
-            //});
+            
             services.AddSingleton<ICompanyDapperManager>(sp =>
             {
                 var config = sp.GetRequiredService<IConfiguration>();

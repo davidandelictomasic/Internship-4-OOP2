@@ -9,13 +9,7 @@ using UserManagement.Infrastructure.Repositories.Common;
 namespace UserManagement.Infrastructure.Repositories.Companies
 {
     public class CompanyRepository : Repository<Company, int>, ICompanyRepository
-    {
-        //private readonly ApplicationDbContext _dbContext;
-        //private readonly IDapperManager _dapperManager;
-        //public CompanyRepository(DbContext dbContext, IDapperManager dapperManager) : base(dbContext)
-        //{
-        //    _dapperManager = dapperManager;
-        //}
+    {        
         private readonly ICompanyDapperManager _dapperManager;
 
         private readonly CompanyDbContext _dbContext;

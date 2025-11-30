@@ -22,6 +22,8 @@ namespace UserManagement.Application.Users.User
             var user = await _unitOfWork.Repository.GetById(_userId);                  
 
             user.IsActive = true;
+            user.UpdatedAt = DateTime.UtcNow;
+
             _unitOfWork.Repository.Update(user); 
 
 

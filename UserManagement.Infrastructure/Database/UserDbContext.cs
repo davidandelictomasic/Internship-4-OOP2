@@ -10,10 +10,7 @@ namespace UserManagement.Infrastructure.Database
         {
         }
 
-        public DbSet<User> Users { get; set; }
-
-
-        // Add other user-related DbSets as needed
+        public DbSet<User> Users { get; set; }       
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
