@@ -60,7 +60,11 @@ namespace UserManagement.Domain.Entities.Users
             existingUser = await userRepository.GetByEmailAsync(Email);
             if (existingUser != null)
                 validationResult.AddValidationItem(UserValidationItems.User.EmailUnique);
+            existingUser = await userRepository.GetByGeoAsync(GeoLatitude, GeoLongitude);
+            if (existingUser != null)
+                validationResult.AddValidationItem(UserValidationItems.User.GeoLocation);
             return validationResult;
+            
         }
         public async Task<Result<bool>> Update(IUserRepository userRepository)
         {

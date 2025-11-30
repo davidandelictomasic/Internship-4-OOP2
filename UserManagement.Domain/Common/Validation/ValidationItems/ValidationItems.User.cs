@@ -18,14 +18,14 @@ namespace UserManagement.Domain.Common.Validation.ValidationItems
             public static readonly ValidationItem UsernameUnique = new ValidationItem
             {
                 ValidationSeverity = ValidationSeverity.Error,
-                ValidationType = ValidationType.FormalValidation,
+                ValidationType = ValidationType.BusinessRule,
                 Code = $"{CodePrefix}_002",
                 Message = $"Username needs to be unique."
             };
             public static readonly ValidationItem EmailUnique = new ValidationItem
             {
                 ValidationSeverity = ValidationSeverity.Error,
-                ValidationType = ValidationType.FormalValidation,
+                ValidationType = ValidationType.BusinessRule,
                 Code = $"{CodePrefix}_003",
                 Message = $"Email needs to be unique."
             };
@@ -77,6 +77,13 @@ namespace UserManagement.Domain.Common.Validation.ValidationItems
                 ValidationType = ValidationType.FormalValidation,
                 Code = $"{CodePrefix}_010",
                 Message = $"Address city name exceeds maximum length({Entities.Users.User.AddressCityMaxLength})."
+            };
+            public static readonly ValidationItem GeoLocation = new ValidationItem
+            {
+                ValidationSeverity = ValidationSeverity.Error,
+                ValidationType = ValidationType.BusinessRule,
+                Code = $"{CodePrefix}_011",
+                Message = "Another user is located less than 3 km from this location. Please choose a different location."
             };
 
 
