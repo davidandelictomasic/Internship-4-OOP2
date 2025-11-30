@@ -14,7 +14,7 @@ namespace UserManagement.Application.Users.User
         public double GeoLatitude { get; set; }
         public double GeoLongitude { get; set; }
         public string? Website { get;  set; }
-        public string Password { get;  set; }
+        
         
     }
     public class CreateUserRequestHandler : RequestHandler<CreateUserRequest, SuccessPostResponse>

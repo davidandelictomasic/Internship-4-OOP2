@@ -24,6 +24,7 @@ namespace UserManagement.Application.Users.User
                 foreach (var user in users)
                 {
                     var validationResult = await user.Create(_unitOfWork.Repository);
+                    result.SetValidationResult(validationResult.ValidationResult);
                     await _unitOfWork.SaveAsync();
 
 
